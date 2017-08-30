@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "106787428292",
+    "firebase_url": "https://messenger-ada3c.firebaseio.com",
+    "project_id": "messenger-ada3c",
+    "storage_bucket": "messenger-ada3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106787428292:android:7436b0100a3d7c97",
+        "android_client_info": {
+          "package_name": "xantus.com.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106787428292-0teisiu8j1h497qitup93ndolp6nrhs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xantus.com.messenger",
+            "certificate_hash": "1e9418d9b734ea0c9ab1413dd89884ebbc8a6906"
+          }
+        },
+        {
+          "client_id": "106787428292-sbde3q9k9j7aa6g0mqf9kgfmets8nid6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt9RzzHnTY1F5JIyoObjhzF5LyAT5b2v4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106787428292-sbde3q9k9j7aa6g0mqf9kgfmets8nid6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

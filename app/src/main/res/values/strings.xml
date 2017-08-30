@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">messenger</string>
+    <string name="location_hint">Enter Location...</string>
+    <string name="location_button">Save</string>
+</resources>

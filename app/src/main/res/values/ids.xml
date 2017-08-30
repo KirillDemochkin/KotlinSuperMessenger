@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="userLocationEditText" type="id" />
+    <item name="userLocationButton" type="id" />
+    <item name="userNameEditText" type="id" />
+    <item name="lastMessageText" type="id" />
+    <item name="userList_conversations" type="id" />
+
+</resources>
