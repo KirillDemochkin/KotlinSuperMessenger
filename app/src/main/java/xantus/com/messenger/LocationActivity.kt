@@ -7,6 +7,7 @@ import android.widget.EditText
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.database.*
 import kotlinx.coroutines.experimental.android.UI
@@ -15,7 +16,9 @@ import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.setContentView
 import org.jetbrains.anko.toast
+import org.threeten.bp.LocalDateTime
 import java.net.URL
+import java.util.*
 
 class LocationActivity : AppCompatActivity() {
     private val geocodingAPIKey : String = "AIzaSyCAjiftf6fvrYi9ymW_d3pdI-weBVbN4Zo"
@@ -56,8 +59,9 @@ class LocationActivity : AppCompatActivity() {
     private fun createUserAndSaveToFirebase(coords: Coords){
         val userName = intent?.getStringExtra("uid")
         if(userName != null){
-            val key = databaseRef.child("users").push().key
+            val key = FirebaseAuth.getInstance().currentUser?.uid ?: "error"+ LocalDateTime.now().toString()
             val newUser = UserModel(userName, key, coords, addressField.text.toString())
+            newUser.setupContacts()
             databaseRef.child("users").child(key).setValue(newUser)
         }
 
