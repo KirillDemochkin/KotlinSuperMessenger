@@ -12,6 +12,7 @@ class MessageModel(val userFrom : String = "",
                    val coordsTo : Coords = Coords(),
                    val subject: String = "",
                    val chatID: String = "",
-                   val body : String = ""){
+                   val body : String = "",
+                   val messageID : String = ""){
     var timeAvailable = LocalDateTime.now()
 }

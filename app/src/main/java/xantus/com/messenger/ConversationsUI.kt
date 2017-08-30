@@ -6,6 +6,7 @@ import org.jetbrains.anko.*
 import android.R.layout
 import android.widget.AdapterView
 import android.widget.ListView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 /**
@@ -21,9 +22,14 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                 onItemClickListener = object : AdapterView.OnItemClickListener{
                     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         val item = p0?.getItemAtPosition(p2) as UserModel
+                        val currentUser = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser?.uid) as UserModel
                         item?.let{
                             toast(item.userID)
-                            startActivity<MessageHistory>("uid" to item.userID)
+                            if(!currentUser.contacts.containsKey(item.userID)){
+                                ui.owner.registerContact(currentUser, item)
+                            }
+                            val chatID : String = currentUser.contacts[item.userID] ?: ""
+                            startActivity<MessageHistory>("uid" to chatID)
                         }
                     }
 
@@ -31,5 +37,7 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
             }.lparams(width = matchParent, height = matchParent)
         }
     }
+
+
 
 }
