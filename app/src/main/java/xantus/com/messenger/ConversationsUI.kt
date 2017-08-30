@@ -7,29 +7,51 @@ import android.R.layout
 import android.widget.AdapterView
 import android.widget.ListView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * Created by dravk on 8/25/2017.
  */
 class ConversationsUI : AnkoComponent<ConversationsOverview>{
     lateinit var lView : ListView
+
+
     override fun createView(ui: AnkoContext<ConversationsOverview>): View = with(ui){
         verticalLayout{
             lparams(width = matchParent, height = matchParent)
+           // val tmp = textView{visibility = View.GONE}.lparams(width = dip(0), height = dip(0))
+            val singleUserMap = mutableMapOf<String, UserModel>()
 
             lView = listView{
                 onItemClickListener = object : AdapterView.OnItemClickListener{
                     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         val item = p0?.getItemAtPosition(p2) as UserModel
-                        val currentUser = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser?.uid) as UserModel
-                        item?.let{
-                            toast(item.userID)
-                            if(!currentUser.contacts.containsKey(item.userID)){
-                                ui.owner.registerContact(currentUser, item)
+                        val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser?.uid)
+                        ref.addValueEventListener(object : ValueEventListener{
+                            override fun onDataChange(p0: DataSnapshot?) {
+
+                                val user = p0?.getValue(UserModel::class.java)?: UserModel()
+                                singleUserMap.put("user", user)
                             }
-                            val chatID : String = currentUser.contacts[item.userID] ?: ""
-                            startActivity<MessageHistory>("uid" to chatID)
+
+                            override fun onCancelled(p0: DatabaseError?) {
+                                toast("Something went wrong :(")
+                            }
+
+                        })
+                        val currentUser = singleUserMap["user"]
+                        currentUser?.let {
+                            item?.let {
+                                toast(item.userID)
+                                if (!currentUser.contacts.containsKey(item.userID)) {
+                                    ui.owner.registerContact(currentUser, item)
+                                }
+                                val chatID: String = currentUser.contacts[item.userID] ?: ""
+                                startActivity<MessageHistory>("uid" to chatID)
+                            }
                         }
                     }
 
