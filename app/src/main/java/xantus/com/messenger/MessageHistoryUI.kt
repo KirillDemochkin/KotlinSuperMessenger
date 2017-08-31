@@ -5,6 +5,7 @@ import android.widget.AdapterView
 import android.widget.ListView
 import org.jetbrains.anko.*
 import android.widget.LinearLayout.HORIZONTAL
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class MessageHistoryUI : AnkoComponent<MessageHistory>{
     lateinit var lView : ListView
@@ -13,26 +14,24 @@ class MessageHistoryUI : AnkoComponent<MessageHistory>{
             lparams(width = matchParent, height = matchParent)
 
             lView = listView{
-                onItemClickListener = object : AdapterView.OnItemClickListener{
-                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                        val item = p0?.getItemAtPosition(p2) as UserModel
-                        item?.let{
-                            toast(item.userID)
-                            startActivity<MessageHistory>("uid" to item.userID)
-                        }
+                onItemClickListener = AdapterView.OnItemClickListener { p0, _, p2, _ ->
+                    val item = p0?.getItemAtPosition(p2) as UserModel
+                    item?.let{
+                        toast(item.userID)
+                        startActivity<MessageHistory>("uid" to item.userID)
                     }
-
                 }
             }.lparams(width = matchParent, height = matchParent)
 
             linearLayout{
                 orientation = HORIZONTAL
                 button{
+                    textResource = R.string.new_letter_button
+                    onClick {
 
-                }
-                button{
+                    }
+                }.lparams(width = matchParent, height = wrapContent)
 
-                }
             }.lparams(width = matchParent, height = wrapContent)
         }
     }

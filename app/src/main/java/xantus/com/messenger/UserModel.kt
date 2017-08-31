@@ -9,7 +9,8 @@ class UserModel(val username : String = "", val userID : String = "", val coords
         val ref = FirebaseDatabase.getInstance().reference
         val key = userID
         val value = ref.child("chats").push().key
-        ref.child("chats").child(value).setValue(false)
+        val newChat = ChatModel(value, key, key)
+        ref.child("chats").child(value).setValue(newChat)
         contacts.put(key, value)
     }
 

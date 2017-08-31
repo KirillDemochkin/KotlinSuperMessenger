@@ -70,7 +70,8 @@ class ConversationsOverview : AppCompatActivity() {
         val user1Map = user1.contacts
         val user2Map = user2.contacts
         val chatKey = mDBRef.child("chats").push().key
-        mDBRef.child("chats").child(chatKey).setValue(false)
+        val newChat = ChatModel(chatKey, user1.userID, user2.userID)
+        mDBRef.child("chats").child(chatKey).setValue(newChat)
         user1Map.put(user2.userID, chatKey)
         user2Map.put(user1.userID, chatKey)
         val childUpdates = mutableMapOf<String, Any>()

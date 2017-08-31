@@ -18,10 +18,10 @@ class MessageHistory : AppCompatActivity() {
         ui.setContentView(this)
         mDBRef = FirebaseDatabase.getInstance().reference
         val chatID = intent.getStringExtra("chatID") ?: ""
-        val adapter = object : FirebaseListAdapter<MessageModel>(ctx, MessageModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID)){
-            override fun populateView(v: View?, model: MessageModel?, position: Int) {
+        val adapter = object : FirebaseListAdapter<ChatModel>(ctx, ChatModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID)){
+            override fun populateView(v: View?, model: ChatModel?, position: Int) {
                 val tView1 = v?.findViewById<TextView>(android.R.id.text1)
-                tView1?.text = model?.subject
+                if((model?.messages?.size?.minus(1)?: -1) >=  position){tView1?.text = model?.messages?.get(position)?.second}
             }
 
         }

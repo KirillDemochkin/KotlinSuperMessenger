@@ -2,4 +2,7 @@
     <string name="app_name">messenger</string>
     <string name="location_hint">Enter Location...</string>
     <string name="location_button">Save</string>
+    <string name="conversations_refresh_button">Refresh</string>
+    <string name="send_button">Send</string>
+    <string name="new_letter_button">New Letter</string>
 </resources>
