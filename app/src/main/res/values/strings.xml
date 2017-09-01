@@ -5,4 +5,9 @@
     <string name="conversations_refresh_button">Refresh</string>
     <string name="send_button">Send</string>
     <string name="new_letter_button">New Letter</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message...</string>
+
 </resources>

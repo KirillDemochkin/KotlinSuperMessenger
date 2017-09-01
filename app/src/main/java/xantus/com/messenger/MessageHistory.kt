@@ -12,16 +12,21 @@ import org.jetbrains.anko.setContentView
 
 class MessageHistory : AppCompatActivity() {
     private lateinit var mDBRef : DatabaseReference
+    lateinit var chatID : String
+    lateinit var toUID : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val ui = MessageHistoryUI()
         ui.setContentView(this)
         mDBRef = FirebaseDatabase.getInstance().reference
-        val chatID = intent.getStringExtra("chatID") ?: ""
+        chatID = intent.getStringExtra("chatID") ?: ""
+        toUID = intent.getStringExtra("toUID") ?: ""
         val adapter = object : FirebaseListAdapter<ChatModel>(ctx, ChatModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID)){
             override fun populateView(v: View?, model: ChatModel?, position: Int) {
+                val messagesAsList = model?.messages?.toList()
                 val tView1 = v?.findViewById<TextView>(android.R.id.text1)
-                if((model?.messages?.size?.minus(1)?: -1) >=  position){tView1?.text = model?.messages?.get(position)?.second}
+                if(model?.messages?.isEmpty() != true){tView1?.text = messagesAsList?.get(position)?.second}
             }
 
         }

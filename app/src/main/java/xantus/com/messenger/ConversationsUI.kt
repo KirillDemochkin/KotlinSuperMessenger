@@ -44,14 +44,15 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                     })
                     val currentUser = singleUserMap["user"]
                     currentUser?.let {
-                        item?.let {
+
                             toast(item.userID)
                             if (!currentUser.contacts.containsKey(item.userID)) {
                                 ui.owner.registerContact(currentUser, item)
                             }
                             val chatID: String = currentUser.contacts[item.userID] ?: ""
-                            startActivity<MessageHistory>("uid" to chatID)
-                        }
+
+                            startActivity<MessageHistory>("chatID" to chatID, "toUID" to item.userID)
+
                     }
                 }
             }.lparams(width = matchParent, height = matchParent)

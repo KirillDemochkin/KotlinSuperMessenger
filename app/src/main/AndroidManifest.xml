@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LocationActivity" />
-        <activity android:name=".MessageHistory"></activity>
+        <activity android:name=".MessageHistory" />
+        <activity android:name=".NewMessageScreen"></activity>
     </application>
 
 </manifest>

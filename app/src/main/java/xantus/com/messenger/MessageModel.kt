@@ -8,11 +8,8 @@ import org.threeten.bp.LocalDateTime
 
 class MessageModel(val userFrom : String = "",
                    val userTo : String = "",
-                   val coordsFrom : Coords = Coords(),
-                   val coordsTo : Coords = Coords(),
-                   val subject: String = "",
                    val chatID: String = "",
-                   val body : String = "",
+                   val body : MessageContainer = MessageContainer(),
                    val messageID : String = ""){
     var timeAvailable = LocalDateTime.now()
 }
