@@ -55,7 +55,7 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
 
                     }
                 }
-            }.lparams(width = matchParent, height = matchParent)
+            }.lparams(width = matchParent, height = matchParent, weight = 1f)
             button{
                 textResource = R.string.conversations_refresh_button
                 onClick {

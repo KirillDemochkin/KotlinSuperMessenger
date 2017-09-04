@@ -54,7 +54,7 @@ class ConversationsOverview : AppCompatActivity() {
 
     private fun displayContacts(){
 
-        val adapter = object : FirebaseListAdapter<UserModel>(ctx, UserModel::class.java, android.R.layout.simple_list_item_2, mDBRef.child("users")){
+        listView.adapter = object : FirebaseListAdapter<UserModel>(ctx, UserModel::class.java, android.R.layout.simple_list_item_2, mDBRef.child("users")){
             override fun populateView(v: View?, model: UserModel?, position: Int) {
                 val tView1 = v?.findViewById<TextView>(android.R.id.text1)
                 val tView2 = v?.findViewById<TextView>(android.R.id.text2)
@@ -62,8 +62,6 @@ class ConversationsOverview : AppCompatActivity() {
                 tView2?.text = model?.location
             }
         }
-        listView.adapter = adapter
-
     }
 
     fun registerContact(user1 : UserModel, user2 : UserModel){

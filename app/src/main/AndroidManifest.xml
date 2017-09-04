@@ -9,17 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConversationsOverview">
+        <activity android:name=".ConversationsOverview"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LocationActivity" />
-        <activity android:name=".MessageHistory" />
-        <activity android:name=".NewMessageScreen" />
-        <activity android:name=".MessageCloseUp"></activity>
+        <activity android:name=".LocationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MessageHistory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NewMessageScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MessageCloseUp"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

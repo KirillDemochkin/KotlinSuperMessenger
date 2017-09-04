@@ -3,6 +3,7 @@ package xantus.com.messenger
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.TextView
 import com.google.firebase.database.*
 import org.jetbrains.anko.setContentView
 import org.jetbrains.anko.toast
@@ -11,7 +12,7 @@ class MessageCloseUp : AppCompatActivity() {
 
 
     lateinit var dbRef: DatabaseReference
-    lateinit var mesDisplay : EditText
+    lateinit var mesDisplay : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +25,19 @@ class MessageCloseUp : AppCompatActivity() {
     }
 
     private fun loadMessage(){
-        val tmp = mutableMapOf<String, MessageModel>()
-        dbRef.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot?) {
-                val downloadedMessage = p0?.getValue(MessageModel::class.java) ?: MessageModel()
-                tmp.put("message", downloadedMessage)
 
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot?) {
+                val message = p0?.getValue(MessageModel::class.java) ?: MessageModel()
+                val messageBody = message.body
+                val mesText = "To: ${messageBody.to}\n\nAbout: ${messageBody.subject}\n\n${messageBody.body}\n${messageBody.from}"
+                mesDisplay.text = mesText
             }
             override fun onCancelled(p0: DatabaseError?) {
                 toast("message cancelled")
             }
 
         })
-        val message = tmp["message"]
-        message?.let {
-            toast(message.body.subject)
-            val messageBody = message.body
-            val mesText = "To: ${messageBody.to}\n ${messageBody.subject}\n ${messageBody.body}\nYours truly, ${messageBody.from}"
-            mesDisplay.setText(mesText)
-        }
+
     }
 }
