@@ -31,6 +31,7 @@ class ConversationsOverview : AppCompatActivity() {
         AndroidThreeTen.init(this)
         super.onCreate(savedInstanceState)
         val ui = ConversationsUI()
+
         ui.setContentView(this)
         mDBRef = FirebaseDatabase.getInstance().reference
         listView = ui.lView
@@ -69,6 +70,7 @@ class ConversationsOverview : AppCompatActivity() {
         val user2Map = user2.contacts
         val chatKey = mDBRef.child("chats").push().key
         val newChat = ChatModel(chatKey, user1.userID, user2.userID)
+        newChat.deliveryTime = calculateDeliveryDelay(user1.coords, user2.coords)
         mDBRef.child("chats").child(chatKey).setValue(newChat)
         user1Map.put(user2.userID, chatKey)
         user2Map.put(user1.userID, chatKey)

@@ -7,7 +7,4 @@ class ChatModel(val chatID: String = "", val User1 : String = "", val user2 : St
     val messages = mutableMapOf<String, String>()
     var deliveryTime : Int = 0
     val pendingMessages = mutableMapOf<String, String>()
-    fun calculateDeliveryTime(from: Coords, to: Coords){
-
-    }
 }

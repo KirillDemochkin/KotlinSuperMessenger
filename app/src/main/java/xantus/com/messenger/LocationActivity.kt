@@ -62,6 +62,7 @@ class LocationActivity : AppCompatActivity() {
             val key = FirebaseAuth.getInstance().currentUser?.uid ?: "error"+ LocalDateTime.now().toString()
             val newUser = UserModel(userName, key, coords, addressField.text.toString())
             newUser.setupContacts()
+            newUser.lastUpdate = LocalDateTime.now().toString()
             databaseRef.child("users").child(key).setValue(newUser)
         }
 

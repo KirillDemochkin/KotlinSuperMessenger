@@ -68,8 +68,9 @@ class NewMessageScreenUI: AnkoComponent<NewMessageScreen>{
                                     ui.owner.chatID,
                                     mesContainer,
                                     key)
+                            newMesForDB.timeAvailable = calculateDeliveryTime(owner.chatDelay.toInt())
                             dbRef.child("messages").child(key).setValue(newMesForDB)
-                            dbRef.child("chats").child(ui.owner.chatID).child("messages").child(key).setValue(MessagePairModel(key, mesContainer.subject))
+                            dbRef.child("chats").child(ui.owner.chatID).child("pendingMessages").child(key).setValue(MessagePairModel(key, mesContainer.subject))
                             ui.owner.finish()
                         }
                     }.lparams(width = matchParent, height = wrapContent)

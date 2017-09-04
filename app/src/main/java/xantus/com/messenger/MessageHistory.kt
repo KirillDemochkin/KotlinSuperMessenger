@@ -14,6 +14,7 @@ class MessageHistory : AppCompatActivity() {
     private lateinit var mDBRef : DatabaseReference
     lateinit var chatID : String
     lateinit var toUID : String
+    lateinit var chatDelay : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,8 @@ class MessageHistory : AppCompatActivity() {
         mDBRef = FirebaseDatabase.getInstance().reference
         chatID = intent.getStringExtra("chatID") ?: ""
         toUID = intent.getStringExtra("toUID") ?: ""
+        chatDelay = intent.getStringExtra("chatDelay") ?: ""
+
         val adapter = object : FirebaseListAdapter<MessagePairModel>(ctx, MessagePairModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID).child("messages")){
             override fun populateView(v: View?, model: MessagePairModel?, position: Int) {
                 val tView1 = v?.findViewById<TextView>(android.R.id.text1)
