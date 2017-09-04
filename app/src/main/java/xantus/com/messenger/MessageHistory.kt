@@ -22,11 +22,10 @@ class MessageHistory : AppCompatActivity() {
         mDBRef = FirebaseDatabase.getInstance().reference
         chatID = intent.getStringExtra("chatID") ?: ""
         toUID = intent.getStringExtra("toUID") ?: ""
-        val adapter = object : FirebaseListAdapter<ChatModel>(ctx, ChatModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID)){
-            override fun populateView(v: View?, model: ChatModel?, position: Int) {
-                val messagesAsList = model?.messages?.toList()
+        val adapter = object : FirebaseListAdapter<MessagePairModel>(ctx, MessagePairModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID).child("messages")){
+            override fun populateView(v: View?, model: MessagePairModel?, position: Int) {
                 val tView1 = v?.findViewById<TextView>(android.R.id.text1)
-                if(model?.messages?.isEmpty() != true){tView1?.text = messagesAsList?.get(position)?.second}
+                tView1?.text = model?.messageSubject
             }
 
         }

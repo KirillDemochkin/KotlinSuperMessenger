@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".LocationActivity" />
         <activity android:name=".MessageHistory" />
-        <activity android:name=".NewMessageScreen"></activity>
+        <activity android:name=".NewMessageScreen" />
+        <activity android:name=".MessageCloseUp"></activity>
     </application>
 
 </manifest>
