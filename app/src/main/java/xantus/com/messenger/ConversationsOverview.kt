@@ -45,9 +45,9 @@ class ConversationsOverview : AppCompatActivity() {
             displayContacts()
         } else{
             toast("Welcome " + FirebaseAuth.getInstance().currentUser?.displayName)
-            //val i = Intent(this, LocationActivity::class.java)
-            //i.putExtra("uid", FirebaseAuth.getInstance().currentUser?.displayName.toString())
-            //startActivityForResult(i, LOCATE_USER_REQUEST_CODE)
+            val i = Intent(this, LocationActivity::class.java)
+            i.putExtra("uid", FirebaseAuth.getInstance().currentUser?.displayName.toString())
+            startActivityForResult(i, LOCATE_USER_REQUEST_CODE)
             displayContacts()
         }
 

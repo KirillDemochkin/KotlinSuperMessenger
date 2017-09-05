@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.setContentView
+import org.jetbrains.anko.toast
 
 class MessageHistory : AppCompatActivity() {
     private lateinit var mDBRef : DatabaseReference
@@ -24,6 +25,7 @@ class MessageHistory : AppCompatActivity() {
         chatID = intent.getStringExtra("chatID") ?: ""
         toUID = intent.getStringExtra("toUID") ?: ""
         chatDelay = intent.getStringExtra("chatDelay") ?: ""
+        //toast(chatDelay)
 
         val adapter = object : FirebaseListAdapter<MessagePairModel>(ctx, MessagePairModel::class.java, android.R.layout.simple_list_item_1, mDBRef.child("chats").child(chatID).child("messages")){
             override fun populateView(v: View?, model: MessagePairModel?, position: Int) {

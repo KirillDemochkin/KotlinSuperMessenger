@@ -28,7 +28,7 @@ class MessageHistoryUI : AnkoComponent<MessageHistory>{
                 button{
                     textResource = R.string.new_letter_button
                     onClick {
-                        startActivity<NewMessageScreen>("chatID" to ui.owner.chatID, "toUID" to ui.owner.toUID, "chatDelay" to owner.chatID)
+                        startActivity<NewMessageScreen>("chatID" to ui.owner.chatID, "toUID" to ui.owner.toUID, "chatDelay" to owner.chatDelay)
                     }
                 }.lparams(width = matchParent, height = wrapContent, weight = 1f)
 

@@ -9,6 +9,7 @@ import android.widget.ListView
 import com.firebase.ui.auth.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.abc_alert_dialog_material.view.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.threeten.bp.LocalDateTime
 
@@ -43,7 +44,7 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                     val currentUser = singleUserMap["user"]
                     currentUser?.let {
 
-                            toast(item.userID)
+                            //toast(item.userID)
                             if (!currentUser.contacts.containsKey(item.userID)) {
                                 ui.owner.registerContact(currentUser, item)
                             }
@@ -55,12 +56,14 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                                 }
 
                                 override fun onDataChange(p0: DataSnapshot?) {
-                                    singleChatMap.put("chatDelay", p0?.value as String)
+                                    singleChatMap.put("chatDelay", p0?.value.toString() )
+                                    startActivity<MessageHistory>("chatID" to chatID, "toUID" to item.userID, "chatDelay" to p0?.value.toString())
                                 }
 
                             })
-                            val chatDelay = singleChatMap["chatDelay"]?: ""
-                            startActivity<MessageHistory>("chatID" to chatID, "toUID" to item.userID, "chatDelay" to chatDelay)
+                            //val chatDelay = singleChatMap["chatDelay"]?: ""
+                            //toast(chatDelay)
+
 
                     }
                 }
@@ -68,7 +71,7 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
             button{
                 textResource = R.string.conversations_refresh_button
                 onClick {
-                    var currentUser = UserModel()
+                    var currentUser: UserModel
                     if (singleUserMap.isEmpty()) {
                         val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser?.uid)
                         ref.addValueEventListener(object : ValueEventListener {
@@ -88,8 +91,9 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                     }
                     currentUser = singleUserMap["user"] ?: UserModel()
                     val lastCheckTime = LocalDateTime.parse(currentUser.lastUpdate)
-                    if (LocalDateTime.now().isAfter(lastCheckTime.plusHours(12))) {
-                        for ((userID, chatID) in currentUser.contacts) {
+                    if (LocalDateTime.now().isAfter(lastCheckTime.plusHours(12)) || true) {
+                        toast("Refreshing!")
+                        for ((_, chatID) in currentUser.contacts) {
                             val ref = FirebaseDatabase.getInstance().reference.child("chats").child(chatID)
 
                             ref.child("pendingMessages").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -98,10 +102,13 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                                 }
 
                                 override fun onDataChange(data: DataSnapshot?) {
-                                    val pendingMessages = data?.getValue(MutableMap::class.java) as MutableMap<String, String>
+                                    val gti = GenericTypeIndicator<MutableMap<String, MessagePairModel>>()
+                                    val pendingMessages = data?.value as MutableMap<String, MessagePairModel>
+                                    val pendingMessagesCopy = mutableMapOf<String, MessagePairModel>()
                                     pendingMessages?.let {
                                         val mesRef = FirebaseDatabase.getInstance().reference.child("messages")
-                                        for ((messageID, messageSubject) in pendingMessages) {
+                                        for ((messageID, _) in pendingMessages) {
+                                            //toast(messageID)
                                             mesRef.child(messageID).addListenerForSingleValueEvent(object : ValueEventListener {
                                                 override fun onCancelled(p0: DatabaseError?) {
 
@@ -110,14 +117,19 @@ class ConversationsUI : AnkoComponent<ConversationsOverview>{
                                                 override fun onDataChange(p0: DataSnapshot?) {
 
                                                     val message = p0?.getValue(MessageModel::class.java) ?: MessageModel()
+                                                    //toast(message.body.subject)
                                                     if (isAvailable(message.timeAvailable)) {
-                                                        ref.child("messages").child(messageID).setValue(message)
+                                                        ref.child("messages").child(messageID).setValue(MessagePairModel(messageID, message.body.subject))
+                                                        toast("added message")
+                                                    } else{
+                                                        pendingMessagesCopy.put(messageID, MessagePairModel(messageID, message.body.subject))
                                                     }
                                                 }
 
                                             })
                                         }
                                     }
+                                    ref.child("pendingMessages").setValue(pendingMessagesCopy)
                                 }
                             })
                         }
